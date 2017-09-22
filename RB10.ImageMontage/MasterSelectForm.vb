@@ -35,6 +35,7 @@
 
             For Each parts In configMaster.PartsList
                 Dim imageCreater = New ImageCreator()
+                imageCreater.Seq = parts.Seq
                 imageCreater.FaceLine = imageMaster.GetFaceLineImage(parts)
                 imageCreater.Eye = imageMaster.GetEyeImage(parts)
                 imageCreater.Nose = imageMaster.GetNoseImage(parts)

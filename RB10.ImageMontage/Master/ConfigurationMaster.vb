@@ -4,6 +4,7 @@ Imports NPOI.SS.UserModel
 
 Public Class ConfigurationMaster
     Public Class Parts
+        Public Property Seq As String
         Public Property FaceLine1 As Integer
         Public Property FaceLine2 As Integer
         Public Property FaceLine3 As Integer
@@ -32,6 +33,7 @@ Public Class ConfigurationMaster
         End Using
         Dim values = book.GetSheet(SHEET_NAME).UsedRange()
 
+        Dim SeqColumnIndex As Integer
         Dim faceLine1ColumnIndex As Integer
         Dim faceLine2ColumnIndex As Integer
         Dim faceLine3ColumnIndex As Integer
@@ -45,6 +47,8 @@ Public Class ConfigurationMaster
         For i = 0 To values.GetUpperBound(1)
             Dim a = values(KEYWORD_ROW_INDEX, i)
             Select Case a
+                Case "No."
+                    SeqColumnIndex = i
                 Case "9_1"
                     faceLine1ColumnIndex = i
                 Case "9_2"
@@ -79,15 +83,16 @@ Public Class ConfigurationMaster
             If isEmpty Then Continue For
 
             Dim faceParts = New Parts()
-            faceParts.FaceLine1 = If(values(i, faceLine1ColumnIndex) = "", 0, ToInt32(values(i, faceLine1ColumnIndex)))
-            faceParts.FaceLine2 = If(values(i, faceLine2ColumnIndex) = "", 0, ToInt32(values(i, faceLine2ColumnIndex)))
-            faceParts.FaceLine3 = If(values(i, faceLine3ColumnIndex) = "", 0, ToInt32(values(i, faceLine3ColumnIndex)))
-            faceParts.FaceLine4 = If(values(i, faceLine4ColumnIndex) = "", 0, ToInt32(values(i, faceLine4ColumnIndex)))
-            faceParts.Eye = If(values(i, eyeColumnIndex) = "", 0, ToInt32(values(i, eyeColumnIndex)))
-            faceParts.Nose = If(values(i, noseColumnIndex) = "", 0, ToInt32(values(i, noseColumnIndex)))
-            faceParts.Mouth = If(values(i, mouthColumnIndex) = "", 0, ToInt32(values(i, mouthColumnIndex)))
-            faceParts.Cheek = If(values(i, cheekColumnIndex) = "", 0, ToInt32(values(i, cheekColumnIndex)))
-            faceParts.Moles = If(values(i, molesColumnIndex) = "", 0, ToInt32(values(i, molesColumnIndex)))
+            faceParts.Seq = values(i, SeqColumnIndex)
+            faceParts.FaceLine1 = ToInt32(values(i, faceLine1ColumnIndex))
+            faceParts.FaceLine2 = ToInt32(values(i, faceLine2ColumnIndex))
+            faceParts.FaceLine3 = ToInt32(values(i, faceLine3ColumnIndex))
+            faceParts.FaceLine4 = ToInt32(values(i, faceLine4ColumnIndex))
+            faceParts.Eye = ToInt32(values(i, eyeColumnIndex))
+            faceParts.Nose = ToInt32(values(i, noseColumnIndex))
+            faceParts.Mouth = ToInt32(values(i, mouthColumnIndex))
+            faceParts.Cheek = ToInt32(values(i, cheekColumnIndex))
+            faceParts.Moles = ToInt32(values(i, molesColumnIndex))
 
             PartsList.Add(faceParts)
         Next
