@@ -15,14 +15,36 @@
 
     Private Sub ExecuteButton_Click(sender As Object, e As EventArgs) Handles ExecuteButton.Click
         Try
+            If ImageMasterTextBox.Text = "" Then
+                MessageBox.Show("画像マスタを選択してください。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
 
+            If ConfigurationMasterTextBox.Text = "" Then
+                MessageBox.Show("構成マスタを選択してください。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return
+            End If
+
+            Dim dlg As New FolderBrowserDialog
+            dlg.Description = "出力フォルダーを選択してください。"
+            If dlg.ShowDialog() = DialogResult.Cancel Then Return
+            Dim saveFolder = dlg.SelectedPath
+
+            Dim imageMaster = New ImageMaster(ImageMasterTextBox.Text)
             Dim configMaster = New ConfigurationMaster(ConfigurationMasterTextBox.Text)
 
+            For Each parts In configMaster.PartsList
+                Dim imageCreater = New ImageCreator()
+                imageCreater.FaceLine = imageMaster.GetFaceLineImage(parts)
+                imageCreater.Eye = imageMaster.GetEyeImage(parts)
+                imageCreater.Nose = imageMaster.GetNoseImage(parts)
+                imageCreater.Mouth = imageMaster.GetMouthImage(parts)
+                imageCreater.Cheek = imageMaster.GetCheekImage(parts)
+                imageCreater.Moles = imageMaster.GetMolesImage(parts)
+                imageCreater.Create(saveFolder)
+            Next
 
-
-
-
-
+            MessageBox.Show("処理が完了しました。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
             MessageBox.Show(ex.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error)

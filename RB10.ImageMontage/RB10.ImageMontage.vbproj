@@ -95,7 +95,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationMaster.vb" />
+    <Compile Include="ImageCreator.vb" />
+    <Compile Include="Master\ConfigurationMaster.vb" />
+    <Compile Include="Master\ImageMaster.vb" />
     <Compile Include="MasterSelectForm.Designer.vb">
       <DependentUpon>MasterSelectForm.vb</DependentUpon>
     </Compile>
